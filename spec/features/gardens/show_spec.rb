@@ -52,6 +52,8 @@ RSpec.describe 'Garden Show' do
       expect(page).to  have_content(plant_4.name)
       expect(page).to  have_content(plant_3.name)
       expect(page).to_not  have_content(plant_5.name)
+
+      expect(plant_1.name).to appear_before(plant_3.name)
     end
   end
 end

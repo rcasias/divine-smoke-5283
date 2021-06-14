@@ -64,6 +64,7 @@ RSpec.describe Garden do
     expect(garden.unique_plants_with_100_day_harvest_sorted[0].name).to eq(plant_4.name)
     expect(garden.unique_plants_with_100_day_harvest_sorted[1].name).to eq(plant_3.name)
     expect(garden.unique_plants_with_100_day_harvest_sorted[2].name).to eq(plant_1.name)
+
   end
 
 end

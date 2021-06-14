@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Plot Index' do
-  describe 'Plot Index Story 1' do
+  describe 'Plot Index Stories' do
 
     #     User Story 1, Plots Index Page
     # As a visitor
@@ -65,32 +65,38 @@ RSpec.describe 'Plot Index' do
       # And I no longer see that plant listed under that plot
       # (Note: you should not destroy the plant record entirely)
 
-  it 'can remove plant from plot' do
-    garden = Garden.create!(name: "Turing Community Garden", organic: true)
+    it 'can remove plant from plot' do
+      garden = Garden.create!(name: "Turing Community Garden", organic: true)
 
-    plot_1 = garden.plots.create!(number: 25, size: "Large", direction: "East")
+      plot_1 = garden.plots.create!(number: 25, size: "Large", direction: "East")
 
-    plant_1 = Plant.create!(name: "Purple Beauty Sweet Bell Pepper", description: "Prefers rich, well draining soil.", days_to_harvest: 90)
-    plant_2 = Plant.create!(name: "Red Beauty Sweet Bell Pepper", description: "Prefers rich, well draining soil.", days_to_harvest: 90)
-    plant_3 = Plant.create!(name: "Green Beauty Sweet Bell Pepper", description: "Prefers rich, well draining soil.", days_to_harvest: 90)
-    plant_4 = Plant.create!(name: "Orange Beauty Sweet Bell Pepper", description: "Prefers rich, well draining soil.", days_to_harvest: 90)
+      plant_1 = Plant.create!(name: "Purple Beauty Sweet Bell Pepper", description: "Prefers rich, well draining soil.", days_to_harvest: 90)
+      plant_2 = Plant.create!(name: "Red Beauty Sweet Bell Pepper", description: "Prefers rich, well draining soil.", days_to_harvest: 90)
+      plant_3 = Plant.create!(name: "Green Beauty Sweet Bell Pepper", description: "Prefers rich, well draining soil.", days_to_harvest: 90)
+      plant_4 = Plant.create!(name: "Orange Beauty Sweet Bell Pepper", description: "Prefers rich, well draining soil.", days_to_harvest: 90)
 
-    Variety.create!(plot: plot_1, plant: plant_1)
-    Variety.create!(plot: plot_1, plant: plant_2)
-    Variety.create!(plot: plot_1, plant: plant_3)
-    Variety.create!(plot: plot_1, plant: plant_4)
+      Variety.create!(plot: plot_1, plant: plant_1)
+      Variety.create!(plot: plot_1, plant: plant_2)
+      Variety.create!(plot: plot_1, plant: plant_3)
+      Variety.create!(plot: plot_1, plant: plant_4)
 
+      visit '/plots'
+      expect(page).to have_button("Remove Plant #{plant_1.name} from Plot")
+      click_button("Remove Plant #{plant_1.name} from Plot")
 
-    visit '/plots'
-    expect(page).to have_button("Remove Plant #{plant_1.name} from Plot")
-    click_button("Remove Plant #{plant_1.name} from Plot")
-    expect(current_path).to eq('/plots')
-    expect(page).to_not have_content(plant_1.name)
-    expect(page).to have_content(plant_2.name)
-    expect(page).to have_content(plant_3.name)
-    expect(page).to have_content(plant_4.name)
-  end
+      expect(current_path).to eq('/plots')
 
+      expect(page).to_not have_content(plant_1.name)
+      expect(page).to have_content(plant_2.name)
+      expect(page).to have_content(plant_3.name)
+      expect(page).to have_content(plant_4.name)
+      click_button("Remove Plant #{plant_2.name} from Plot")
+
+      expect(page).to_not have_content(plant_2.name)
+      expect(page).to have_content(plant_3.name)
+      expect(page).to have_content(plant_4.name)
+      expect(current_path).to eq('/plots')
+    end
 
 
   end

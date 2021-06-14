@@ -28,19 +28,29 @@ RSpec.describe 'Garden Show' do
       plant_2 = Plant.create!(name: "Red Beauty Sweet Bell Pepper", description: "Prefers rich, well draining soil.", days_to_harvest: 120)
       plant_3 = Plant.create!(name: "Green Beauty Sweet Bell Pepper", description: "Prefers rich, well draining soil.", days_to_harvest: 90)
       plant_4 = Plant.create!(name: "Orange Beauty Sweet Bell Pepper", description: "Prefers rich, well draining soil.", days_to_harvest: 90)
+      plant_5 = Plant.create!(name: "Yellow Beauty Sweet Bell Pepper", description: "Prefers rich, well draining soil.", days_to_harvest: 100)
 
       Variety.create!(plot: plot_1, plant: plant_1)
+      Variety.create!(plot: plot_1, plant: plant_5)
+
+      Variety.create!(plot: plot_2, plant: plant_1)
       Variety.create!(plot: plot_2, plant: plant_2)
+
       Variety.create!(plot: plot_3, plant: plant_3)
+      Variety.create!(plot: plot_3, plant: plant_5)
 
       Variety.create!(plot: plot_4, plant: plant_4)
       Variety.create!(plot: plot_4, plant: plant_1)
       Variety.create!(plot: plot_4, plant: plant_2)
       Variety.create!(plot: plot_4, plant: plant_3)
+      Variety.create!(plot: plot_4, plant: plant_5)
 
 
       visit "/gardens/#{garden.id}"
       expect(page).to  have_content(plant_1.name)
+      expect(page).to_not  have_content(plant_2.name)
+      expect(page).to  have_content(plant_4.name)
+      expect(page).to  have_content(plant_3.name)
     end
   end
 end

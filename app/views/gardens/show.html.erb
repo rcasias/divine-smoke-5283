@@ -1,0 +1,5 @@
+<h1><%= @garden.name %></h1>
+<h3>Plants That Belong To This Garden with Less than 100 Day Harvest:</h3>
+<% @gardens_plants.each do |plant| %>
+  <%= plant.name %><br/>
+<% end %>
